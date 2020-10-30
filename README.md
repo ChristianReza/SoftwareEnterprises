@@ -1,6 +1,11 @@
 # SoftwareEnterprises
 
 
+Create the database in your remote VM before running code:
+In your VM, run `mysql -u root -p`
+Now, in your SQL terminal, run `CREATE DATABASE SoftwareEnterprises;`
+To verify creation, run `SHOW DATABASES;` verify the DB, `SoftwareEnterprises` exists
+
 Create your hibernate.xml.cfg file, contents should look like this:
 
 <?xml version="1.0" encoding="utf-8"?>
