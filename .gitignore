@@ -77,3 +77,4 @@ local.properties
 *.project/
 build/
 /src/hibernate.cfg.xml
+*.war
