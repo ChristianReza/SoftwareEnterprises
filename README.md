@@ -26,7 +26,7 @@ Create your hibernate.xml.cfg file, contents should look like this:
 		<property name="hibernate.hbm2ddl.auto">update</property>
 		<!-- True you will see sql in console -->
 		<property name="show_sql">false</property>
-		<mapping class="" />
+		<mapping class="datamodels.entities.UserEntity" />
 	</session-factory>
 </hibernate-configuration>
 ```
