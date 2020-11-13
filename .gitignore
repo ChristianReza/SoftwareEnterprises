@@ -78,3 +78,5 @@ local.properties
 build/
 /src/hibernate.cfg.xml
 *.war
+/SoftwareEnterprises.iml
+/.idea/
