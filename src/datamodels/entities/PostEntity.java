@@ -2,19 +2,46 @@ package datamodels.entities;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
+import datamodels.dtos.PostDTO;
 import datamodels.interfaces.Comment;
 import datamodels.interfaces.Post;
 
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 public class PostEntity implements Post {
-	
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "ID")
+	private Integer id;
+
+	@Column(name = "SUBJ")
 	private String subject;
-	
+
+	@Column(name = "BODY")
 	private String body;
-	
+
+	@Column(name = "COMMENTS")
 	private List<Comment> comments;
-	
+
+	@Column(name = "DATE")
 	private Date date;
+
+    public PostEntity(PostDTO post) {
+    	this.subject = post.getSubject();
+    	this.body = post.getBody();
+    	this.comments = post.getComments();
+    	this.date = post.getDate();
+    }
+
+	public Integer getId() {
+		return id;
+	}
 
 	@Override
 	public String getSubject() {
@@ -35,7 +62,11 @@ public class PostEntity implements Post {
 	public Date getDate() {
 		return this.date;
 	}
-	
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
 	public void setSubject(String subject) {
 		this.subject = subject;
 	}
@@ -53,48 +84,19 @@ public class PostEntity implements Post {
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((body == null) ? 0 : body.hashCode());
-		result = prime * result + ((comments == null) ? 0 : comments.hashCode());
-		result = prime * result + ((date == null) ? 0 : date.hashCode());
-		result = prime * result + ((subject == null) ? 0 : subject.hashCode());
-		return result;
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		PostEntity that = (PostEntity) o;
+		return Objects.equals(id, that.id) &&
+				Objects.equals(subject, that.subject) &&
+				Objects.equals(body, that.body) &&
+				Objects.equals(comments, that.comments) &&
+				Objects.equals(date, that.date);
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		PostEntity other = (PostEntity) obj;
-		if (body == null) {
-			if (other.body != null)
-				return false;
-		} else if (!body.equals(other.body))
-			return false;
-		if (comments == null) {
-			if (other.comments != null)
-				return false;
-		} else if (!comments.equals(other.comments))
-			return false;
-		if (date == null) {
-			if (other.date != null)
-				return false;
-		} else if (!date.equals(other.date))
-			return false;
-		if (subject == null) {
-			if (other.subject != null)
-				return false;
-		} else if (!subject.equals(other.subject))
-			return false;
-		return true;
+	public int hashCode() {
+		return Objects.hash(id, subject, body, comments, date);
 	}
-	
-	
-
 }

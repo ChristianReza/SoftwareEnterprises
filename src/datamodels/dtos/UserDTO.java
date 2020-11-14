@@ -1,6 +1,7 @@
 package datamodels.dtos;
 
 import java.util.List;
+import java.util.Objects;
 
 import datamodels.interfaces.Post;
 import datamodels.interfaces.User;
@@ -85,66 +86,21 @@ public class UserDTO implements User {
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((email == null) ? 0 : email.hashCode());
-		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
-		result = prime * result + ((friends == null) ? 0 : friends.hashCode());
-		result = prime * result + ((hobbies == null) ? 0 : hobbies.hashCode());
-		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
-		result = prime * result + ((location == null) ? 0 : location.hashCode());
-		result = prime * result + ((posts == null) ? 0 : posts.hashCode());
-		return result;
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		UserDTO userDTO = (UserDTO) o;
+		return Objects.equals(firstName, userDTO.firstName) &&
+				Objects.equals(lastName, userDTO.lastName) &&
+				Objects.equals(email, userDTO.email) &&
+				Objects.equals(location, userDTO.location) &&
+				Objects.equals(hobbies, userDTO.hobbies) &&
+				Objects.equals(friends, userDTO.friends) &&
+				Objects.equals(posts, userDTO.posts);
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		UserDTO other = (UserDTO) obj;
-		if (email == null) {
-			if (other.email != null)
-				return false;
-		} else if (!email.equals(other.email))
-			return false;
-		if (firstName == null) {
-			if (other.firstName != null)
-				return false;
-		} else if (!firstName.equals(other.firstName))
-			return false;
-		if (friends == null) {
-			if (other.friends != null)
-				return false;
-		} else if (!friends.equals(other.friends))
-			return false;
-		if (hobbies == null) {
-			if (other.hobbies != null)
-				return false;
-		} else if (!hobbies.equals(other.hobbies))
-			return false;
-		if (lastName == null) {
-			if (other.lastName != null)
-				return false;
-		} else if (!lastName.equals(other.lastName))
-			return false;
-		if (location == null) {
-			if (other.location != null)
-				return false;
-		} else if (!location.equals(other.location))
-			return false;
-		if (posts == null) {
-			if (other.posts != null)
-				return false;
-		} else if (!posts.equals(other.posts))
-			return false;
-		return true;
+	public int hashCode() {
+		return Objects.hash(firstName, lastName, email, location, hobbies, friends, posts);
 	}
-	
-	
-
 }

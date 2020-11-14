@@ -1,12 +1,14 @@
 package datamodels.entities;
 
 import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import datamodels.dtos.UserDTO;
 import datamodels.interfaces.Post;
 import datamodels.interfaces.User;
 
@@ -14,23 +16,40 @@ public class UserEntity implements User {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "ID") // specify the column name. Without it, it will use method name
+	@Column(name = "ID")
 	private Integer id;
-	
+
+	@Column(name = "FIRST_NAME")
 	private String firstName;
-	
+
+	@Column(name = "LAST_NAME")
 	private String lastName;
-	
+
+	@Column(name = "EMAIL")
 	private String email;
-	
+
+	@Column(name = "LOC")
 	private String location;
-	
+
+	@Column(name = "HOBBIES")
 	private List<String> hobbies;
-	
+
+	@Column(name = "FRIENDS")
 	private List<User> friends;
-	
+
+	@Column(name = "POSTS")
 	private List<Post> posts;
-	
+
+	public UserEntity(UserDTO user) {
+		this.firstName = user.getFirstName();
+		this.lastName = user.getLastName();
+		this.email = user.getEmail();
+		this.location = user.getLocation();
+		this.hobbies = user.getHobbies();
+		this.friends = user.getFriends();
+		this.posts = user.getPosts();
+	}
+
 	public Integer getId() {
 		return id;
 	}
@@ -103,72 +122,22 @@ public class UserEntity implements User {
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((email == null) ? 0 : email.hashCode());
-		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
-		result = prime * result + ((friends == null) ? 0 : friends.hashCode());
-		result = prime * result + ((hobbies == null) ? 0 : hobbies.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
-		result = prime * result + ((location == null) ? 0 : location.hashCode());
-		result = prime * result + ((posts == null) ? 0 : posts.hashCode());
-		return result;
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		UserEntity that = (UserEntity) o;
+		return Objects.equals(id, that.id) &&
+				Objects.equals(firstName, that.firstName) &&
+				Objects.equals(lastName, that.lastName) &&
+				Objects.equals(email, that.email) &&
+				Objects.equals(location, that.location) &&
+				Objects.equals(hobbies, that.hobbies) &&
+				Objects.equals(friends, that.friends) &&
+				Objects.equals(posts, that.posts);
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		UserEntity other = (UserEntity) obj;
-		if (email == null) {
-			if (other.email != null)
-				return false;
-		} else if (!email.equals(other.email))
-			return false;
-		if (firstName == null) {
-			if (other.firstName != null)
-				return false;
-		} else if (!firstName.equals(other.firstName))
-			return false;
-		if (friends == null) {
-			if (other.friends != null)
-				return false;
-		} else if (!friends.equals(other.friends))
-			return false;
-		if (hobbies == null) {
-			if (other.hobbies != null)
-				return false;
-		} else if (!hobbies.equals(other.hobbies))
-			return false;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		if (lastName == null) {
-			if (other.lastName != null)
-				return false;
-		} else if (!lastName.equals(other.lastName))
-			return false;
-		if (location == null) {
-			if (other.location != null)
-				return false;
-		} else if (!location.equals(other.location))
-			return false;
-		if (posts == null) {
-			if (other.posts != null)
-				return false;
-		} else if (!posts.equals(other.posts))
-			return false;
-		return true;
+	public int hashCode() {
+		return Objects.hash(id, firstName, lastName, email, location, hobbies, friends, posts);
 	}
-	
-	
-
 }

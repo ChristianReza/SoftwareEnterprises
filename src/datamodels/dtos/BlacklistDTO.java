@@ -2,6 +2,8 @@ package datamodels.dtos;
 
 import datamodels.interfaces.Blacklist;
 
+import java.util.Objects;
+
 public class BlacklistDTO implements Blacklist{
 	
 	private String site;
@@ -25,37 +27,18 @@ public class BlacklistDTO implements Blacklist{
 	public void setReportedSite(int reports) {
 		this.reports = reports;
 	}
-	
-	// May need a method to bump reports by one as well as a setter if a site was wrongfully blocked
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		BlacklistDTO that = (BlacklistDTO) o;
+		return reports == that.reports &&
+				Objects.equals(site, that.site);
+	}
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + reports;
-		result = prime * result + ((site == null) ? 0 : site.hashCode());
-		return result;
+		return Objects.hash(site, reports);
 	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		BlacklistDTO other = (BlacklistDTO) obj;
-		if (reports != other.reports)
-			return false;
-		if (site == null) {
-			if (other.site != null)
-				return false;
-		} else if (!site.equals(other.site))
-			return false;
-		return true;
-	}
-	
-	
-
 }

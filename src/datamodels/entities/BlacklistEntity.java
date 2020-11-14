@@ -2,11 +2,33 @@ package datamodels.entities;
 
 import datamodels.interfaces.Blacklist;
 
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import java.util.Objects;
+
 public class BlacklistEntity implements Blacklist{
-	
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "ID")
+	private Integer id;
+
+	@Column(name = "SITE")
 	private String site;
-	
+
+	@Column(name = "REPORTS")
 	private int reports;
+
+	public BlacklistEntity(String site) {
+		this.site = site;
+		this.reports = 1;
+	}
+
+	public Integer getId() {
+		return id;
+	}
 
 	@Override
 	public String getReportedSite() {
@@ -18,6 +40,10 @@ public class BlacklistEntity implements Blacklist{
 		return this.reports;
 	}
 
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
 	public int setNumReports() {
 		return reports;
 	}
@@ -26,36 +52,22 @@ public class BlacklistEntity implements Blacklist{
 		this.reports = reports;
 	}
 	
-	// May need a method to bump reports by one as well as a setter if a site was wrongfully blocked
+	public void bumpReports() {
+		reports++;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		BlacklistEntity that = (BlacklistEntity) o;
+		return reports == that.reports &&
+				Objects.equals(id, that.id) &&
+				Objects.equals(site, that.site);
+	}
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + reports;
-		result = prime * result + ((site == null) ? 0 : site.hashCode());
-		return result;
+		return Objects.hash(id, site, reports);
 	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		BlacklistEntity other = (BlacklistEntity) obj;
-		if (reports != other.reports)
-			return false;
-		if (site == null) {
-			if (other.site != null)
-				return false;
-		} else if (!site.equals(other.site))
-			return false;
-		return true;
-	}
-	
-	
-
 }

@@ -2,6 +2,7 @@ package datamodels.dtos;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import datamodels.interfaces.Comment;
 import datamodels.interfaces.Post;
@@ -53,48 +54,18 @@ public class PostDTO implements Post {
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((body == null) ? 0 : body.hashCode());
-		result = prime * result + ((comments == null) ? 0 : comments.hashCode());
-		result = prime * result + ((date == null) ? 0 : date.hashCode());
-		result = prime * result + ((subject == null) ? 0 : subject.hashCode());
-		return result;
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		PostDTO postDTO = (PostDTO) o;
+		return Objects.equals(subject, postDTO.subject) &&
+				Objects.equals(body, postDTO.body) &&
+				Objects.equals(comments, postDTO.comments) &&
+				Objects.equals(date, postDTO.date);
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		PostDTO other = (PostDTO) obj;
-		if (body == null) {
-			if (other.body != null)
-				return false;
-		} else if (!body.equals(other.body))
-			return false;
-		if (comments == null) {
-			if (other.comments != null)
-				return false;
-		} else if (!comments.equals(other.comments))
-			return false;
-		if (date == null) {
-			if (other.date != null)
-				return false;
-		} else if (!date.equals(other.date))
-			return false;
-		if (subject == null) {
-			if (other.subject != null)
-				return false;
-		} else if (!subject.equals(other.subject))
-			return false;
-		return true;
+	public int hashCode() {
+		return Objects.hash(subject, body, comments, date);
 	}
-	
-	
-
 }
