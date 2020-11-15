@@ -1,10 +1,10 @@
 package datamodels.dtos;
 
-import datamodels.interfaces.Blacklist;
-
 import java.util.Objects;
 
-public class BlacklistDTO implements Blacklist{
+import datamodels.interfaces.Blacklist;
+
+public class BlacklistDTO implements Blacklist {
 	
 	private String site;
 	

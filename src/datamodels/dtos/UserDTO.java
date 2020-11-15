@@ -6,6 +6,7 @@ import java.util.Objects;
 import datamodels.interfaces.Post;
 import datamodels.interfaces.User;
 
+
 public class UserDTO implements User {
 	
 	private String firstName;
@@ -21,6 +22,15 @@ public class UserDTO implements User {
 	private List<User> friends;
 	
 	private List<Post> posts;
+	
+	public UserDTO(String firstName, String lastName, String email, String location, List<String> hobbies) {
+		super();
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.location = location;
+		this.hobbies = hobbies;
+	}
 
 	@Override
 	public String getFirstName() {
