@@ -17,6 +17,12 @@ public class PostDTO implements Post {
 	
 	private Date date;
 
+	public PostDTO(String subject, String body, Date date) {
+		this.subject = subject;
+		this.body = body;
+		this.date = date;
+	}
+
 	@Override
 	public String getSubject() {
 		return this.subject;
