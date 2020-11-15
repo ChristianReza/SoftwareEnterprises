@@ -27,6 +27,8 @@ Create your hibernate.xml.cfg file, contents should look like this:
 		<!-- True you will see sql in console -->
 		<property name="show_sql">false</property>
 		<mapping class="datamodels.entities.UserEntity" />
+		<mapping class="datamodels.entities.PostEntity" />
+		<mapping class="datamodels.entities.BlackListEntity" />
 	</session-factory>
 </hibernate-configuration>
 ```
