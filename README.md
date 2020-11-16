@@ -28,7 +28,8 @@ Create your hibernate.xml.cfg file, contents should look like this:
 		<property name="show_sql">false</property>
 		<mapping class="datamodels.entities.UserEntity" />
 		<mapping class="datamodels.entities.PostEntity" />
-		<mapping class="datamodels.entities.BlackListEntity" />
+		<mapping class="datamodels.entities.CommentEntity" />
+		<mapping class="datamodels.entities.BlacklistEntity" />
 	</session-factory>
 </hibernate-configuration>
 ```
