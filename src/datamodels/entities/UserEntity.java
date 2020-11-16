@@ -4,14 +4,20 @@ import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import datamodels.dtos.UserDTO;
 import datamodels.interfaces.Post;
 import datamodels.interfaces.User;
 
+@Entity
+@Table(name = "USER")
 public class UserEntity implements User {
 	
 	@Id
@@ -32,12 +38,15 @@ public class UserEntity implements User {
 	private String location;
 
 	@Column(name = "HOBBIES")
+	@ElementCollection
 	private List<String> hobbies;
 
 	@Column(name = "FRIENDS")
+	@OneToMany(targetEntity = UserEntity.class)
 	private List<User> friends;
 
 	@Column(name = "POSTS")
+	@OneToMany(targetEntity = PostEntity.class)
 	private List<Post> posts;
 
 	public UserEntity(UserDTO user) {

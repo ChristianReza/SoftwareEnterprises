@@ -3,15 +3,33 @@ package datamodels.entities;
 import java.util.Date;
 import java.util.Objects;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
 import datamodels.interfaces.Comment;
 import datamodels.interfaces.User;
 
+@Entity
+@Table(name = "COMMENTS")
 public class CommentEntity implements Comment {
 	
-	private User user;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "ID")
+	private Integer id;
 	
+	@OneToOne
+	private UserEntity user;
+	
+	@Column(name = "COMMENT")
 	private String comment;
 	
+	@Column(name = "DATE")
 	private Date date;
 
 	@Override
@@ -29,7 +47,7 @@ public class CommentEntity implements Comment {
 		return this.date;
 	}
 
-	public void setUser(User user) {
+	public void setUser(UserEntity user) {
 		this.user = user;
 	}
 

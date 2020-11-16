@@ -9,10 +9,15 @@ import datamodels.interfaces.Comment;
 import datamodels.interfaces.Post;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
+@Entity
+@Table(name = "POSTS")
 public class PostEntity implements Post {
 
 	@Id
@@ -27,6 +32,7 @@ public class PostEntity implements Post {
 	private String body;
 
 	@Column(name = "COMMENTS")
+	@OneToMany(targetEntity = CommentEntity.class)
 	private List<Comment> comments;
 
 	@Column(name = "DATE")

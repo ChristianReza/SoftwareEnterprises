@@ -3,11 +3,16 @@ package datamodels.entities;
 import datamodels.interfaces.Blacklist;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
+
 import java.util.Objects;
 
+@Entity
+@Table(name = "BLACKLIST")
 public class BlacklistEntity implements Blacklist{
 
 	@Id
@@ -20,6 +25,10 @@ public class BlacklistEntity implements Blacklist{
 
 	@Column(name = "REPORTS")
 	private int reports;
+	
+	public BlacklistEntity() {
+		// Default Constructor
+	}
 
 	public BlacklistEntity(String site) {
 		this.site = site;
