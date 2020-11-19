@@ -29,7 +29,7 @@ public class CreateUser extends HttpServlet {
 		String email = request.getParameter("email");
 		String location = request.getParameter("location");
 		String hobbies = request.getParameter("hobbies");
-		List<String> hobbiesList = Arrays.asList(hobbies.split("")); // split hobbies by a space into a List<String>
+		List<String> hobbiesList = Arrays.asList(hobbies.split(",")); // split hobbies by a space into a List<String>
 
 		// Create UserDTO from endpoint request
 		UserDTO user = new UserDTO(firstName, lastName, email, location, hobbiesList);
