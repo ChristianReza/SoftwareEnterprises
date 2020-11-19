@@ -14,6 +14,10 @@ Create your hibernate.cfg.xml file, contents should look like this:
 "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 
 ```
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-configuration SYSTEM 
+"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
 <hibernate-configuration>
 	<session-factory>
 	    <!-- The dialect specifies the type of database used in hibernate so that hibernate generate appropriate type of SQL statements. -->
