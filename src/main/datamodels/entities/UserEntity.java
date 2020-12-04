@@ -63,6 +63,10 @@ public class UserEntity implements User {
 		this.password = user.getPassword();
 	}
 
+	public UserEntity() {
+		super();
+	}
+
 	public Integer getId() {
 		return id;
 	}

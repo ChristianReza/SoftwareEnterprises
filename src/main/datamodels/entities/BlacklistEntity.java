@@ -53,12 +53,12 @@ public class BlacklistEntity implements Blacklist{
 		this.id = id;
 	}
 
-	public int setNumReports() {
-		return reports;
+	public void setNumReports(int reports) {
+		this.reports = reports;
 	}
 
-	public void setReportedSite(int reports) {
-		this.reports = reports;
+	public void setReportedSite(String site) {
+		this.site = site;
 	}
 	
 	public void bumpReports() {

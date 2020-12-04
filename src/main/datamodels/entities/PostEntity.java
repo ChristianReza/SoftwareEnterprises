@@ -45,6 +45,10 @@ public class PostEntity implements Post {
     	this.date = post.getDate();
     }
 
+	public PostEntity() {
+		super();
+	}
+
 	public Integer getId() {
 		return id;
 	}
@@ -88,7 +92,7 @@ public class PostEntity implements Post {
 	public void setDate(Date date) {
 		this.date = date;
 	}
-
+	
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
