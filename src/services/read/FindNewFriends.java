@@ -15,7 +15,7 @@ import datamodels.dtos.UserDTO;
 import util.DBUtil;
 
 /**
- * Servlet implementation class findUsers
+ * Servlet implementation class findFriends
  */
 @WebServlet("/findFriends")
 public class FindNewFriends extends HttpServlet {
