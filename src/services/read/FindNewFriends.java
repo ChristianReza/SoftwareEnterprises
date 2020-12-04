@@ -1,4 +1,4 @@
-package services.create;
+package services.read;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -14,27 +14,36 @@ import javax.servlet.http.HttpServletResponse;
 import datamodels.dtos.UserDTO;
 import util.DBUtil;
 
-@WebServlet("/createUser")
-public class CreateUser extends HttpServlet {
+/**
+ * Servlet implementation class findUsers
+ */
+@WebServlet("/findFriends")
+public class FindNewFriends extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public FindNewFriends() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
 
-	public CreateUser() {
-		super();
-	}
-
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String firstName = request.getParameter("firstName").trim();
 		String lastName = request.getParameter("lastName").trim();
-		String email = request.getParameter("email");
 		String location = request.getParameter("location");
 		String hobbies = request.getParameter("hobbies");
 		List<String> hobbiesList = Arrays.asList(hobbies.split(",")); // split hobbies by a space into a List<String>
 
 		// Create UserDTO from endpoint request
-		UserDTO user = new UserDTO(firstName, lastName, email, location, hobbiesList);
+		UserDTO user = new UserDTO(firstName, lastName, null, location, hobbiesList);
 
-		DBUtil.createUser(user);
+		DBUtil.findUsers(user);
 
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
@@ -55,8 +64,12 @@ public class CreateUser extends HttpServlet {
 		out.println("</body></html>");
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
+
 }

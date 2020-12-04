@@ -69,12 +69,12 @@ public class DBUtil {
 	}
 
 	/**
-	 * Search user entities by hobbies
+	 * Search user entities search criteria (first name/last name/hobbies/location)
 	 *
-	 * @param keyword - hobby to search by
-	 * @return users with that hobby
+	 * @param user - UserDTO to search for similarities against users in DB
+	 * @return users with that that match parts of the query
 	 */
-	public static List<UserEntity> findByHobby(String keyword) {
+	public static List<UserEntity> findUsers(UserDTO queryUser) {
 		List<UserEntity> resultList = new ArrayList<>();
 
 		Session session = getSessionFactory().openSession();
@@ -85,8 +85,19 @@ public class DBUtil {
 			List<?> users = session.createQuery("FROM UserEntity").list();
 			for (Iterator<?> iterator = users.iterator(); iterator.hasNext();) {
 				UserEntity user = (UserEntity) iterator.next();
-				if (user.getHobbies().contains(keyword)) {
+				if(user.getFirstName().equals(queryUser.getFirstName())
+						&& user.getLastName().equals(queryUser.getLastName())) {
 					resultList.add(user);
+				}
+				if((queryUser.getLocation() != null || queryUser.getLocation().isEmpty()) 
+						&& user.getLocation().equals(queryUser.getLocation())) {
+					resultList.add(user);
+				}
+				List<String> hobbies = queryUser.getHobbies();
+				for (String hobby : hobbies) {
+					if (user.getHobbies().contains(hobby)) {
+						resultList.add(user);
+					}
 				}
 			}
 			tx.commit();
