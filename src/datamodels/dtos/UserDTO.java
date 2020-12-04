@@ -23,13 +23,16 @@ public class UserDTO implements User {
 	
 	private List<Post> posts;
 	
-	public UserDTO(String firstName, String lastName, String email, String location, List<String> hobbies) {
+	private String password;
+	
+	public UserDTO(String firstName, String lastName, String email, String location, List<String> hobbies, String password) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
 		this.location = location;
 		this.hobbies = hobbies;
+		this.password = password;
 	}
 
 	@Override
@@ -66,6 +69,11 @@ public class UserDTO implements User {
 	public List<Post> getPosts() {
 		return this.posts;
 	}
+	
+	@Override
+	public String getPassword() {
+		return this.password;
+	}
 
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
@@ -94,6 +102,10 @@ public class UserDTO implements User {
 	public void setPosts(List<Post> posts) {
 		this.posts = posts;
 	}
+	
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
 	@Override
 	public boolean equals(Object o) {
@@ -106,11 +118,12 @@ public class UserDTO implements User {
 				Objects.equals(location, userDTO.location) &&
 				Objects.equals(hobbies, userDTO.hobbies) &&
 				Objects.equals(friends, userDTO.friends) &&
-				Objects.equals(posts, userDTO.posts);
+				Objects.equals(posts, userDTO.posts) &&
+				Objects.equals(password, userDTO.password);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(firstName, lastName, email, location, hobbies, friends, posts);
+		return Objects.hash(firstName, lastName, email, location, hobbies, friends, posts, password);
 	}
 }

@@ -41,7 +41,7 @@ public class FindNewFriends extends HttpServlet {
 		List<String> hobbiesList = Arrays.asList(hobbies.split(",")); // split hobbies by a space into a List<String>
 
 		// Create UserDTO from endpoint request
-		UserDTO user = new UserDTO(firstName, lastName, null, location, hobbiesList);
+		UserDTO user = new UserDTO(firstName, lastName, null, location, hobbiesList, null);
 
 		DBUtil.findUsers(user);
 

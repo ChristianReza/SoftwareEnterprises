@@ -11,5 +11,6 @@ public interface User {
 	List<String> getHobbies();
 	List<User> getFriends();
 	List<Post> getPosts();
+	String getPassword();
 
 }

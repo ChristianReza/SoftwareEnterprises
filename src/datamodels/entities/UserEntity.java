@@ -30,6 +30,9 @@ public class UserEntity implements User {
 
 	@Column(name = "LAST_NAME")
 	private String lastName;
+	
+	@Column(name = "PW")
+	private String password;
 
 	@Column(name = "EMAIL")
 	private String email;
@@ -57,6 +60,7 @@ public class UserEntity implements User {
 		this.hobbies = user.getHobbies();
 		this.friends = user.getFriends();
 		this.posts = user.getPosts();
+		this.password = user.getPassword();
 	}
 
 	public Integer getId() {
@@ -97,6 +101,11 @@ public class UserEntity implements User {
 	public List<Post> getPosts() {
 		return this.posts;
 	}
+	
+	@Override
+	public String getPassword() {
+		return this.password;
+	}
 
 	public void setId(Integer id) {
 		this.id = id;
@@ -129,6 +138,10 @@ public class UserEntity implements User {
 	public void setPosts(List<Post> posts) {
 		this.posts = posts;
 	}
+	
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
 	@Override
 	public boolean equals(Object o) {
@@ -142,11 +155,13 @@ public class UserEntity implements User {
 				Objects.equals(location, that.location) &&
 				Objects.equals(hobbies, that.hobbies) &&
 				Objects.equals(friends, that.friends) &&
-				Objects.equals(posts, that.posts);
+				Objects.equals(posts, that.posts) &&
+				Objects.equals(password, that.password);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, firstName, lastName, email, location, hobbies, friends, posts);
+		return Objects.hash(id, firstName, lastName, email, location, hobbies, friends, posts, password);
 	}
+
 }

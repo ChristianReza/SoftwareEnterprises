@@ -26,13 +26,14 @@ public class CreateUser extends HttpServlet {
 			throws ServletException, IOException {
 		String firstName = request.getParameter("firstName").trim();
 		String lastName = request.getParameter("lastName").trim();
+		String password = Integer.toString(request.getParameter("password").hashCode()); // hash pw
 		String email = request.getParameter("email");
 		String location = request.getParameter("location");
 		String hobbies = request.getParameter("hobbies");
 		List<String> hobbiesList = Arrays.asList(hobbies.split(",")); // split hobbies by a space into a List<String>
 
 		// Create UserDTO from endpoint request
-		UserDTO user = new UserDTO(firstName, lastName, email, location, hobbiesList);
+		UserDTO user = new UserDTO(firstName, lastName, email, location, hobbiesList, password);
 
 		DBUtil.createUser(user);
 
