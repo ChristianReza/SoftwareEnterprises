@@ -20,12 +20,12 @@ public class BlacklistDTO implements Blacklist {
 		return this.reports;
 	}
 
-	public int setNumReports() {
-		return reports;
+	public void setNumReports(int num) {
+		this.reports = num;
 	}
 
-	public void setReportedSite(int reports) {
-		this.reports = reports;
+	public void setReportedSite(String site) {
+		this.site = site;
 	}
 
 	@Override

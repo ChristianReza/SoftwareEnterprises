@@ -23,6 +23,10 @@ public class PostDTO implements Post {
 		this.date = date;
 	}
 
+	public PostDTO() {
+		super();
+	}
+
 	@Override
 	public String getSubject() {
 		return this.subject;

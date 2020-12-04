@@ -34,6 +34,10 @@ public class UserDTO implements User {
 		this.hobbies = hobbies;
 		this.password = password;
 	}
+	
+	public UserDTO() {
+		super();
+	}
 
 	@Override
 	public String getFirstName() {
