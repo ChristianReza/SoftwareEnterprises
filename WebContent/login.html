@@ -1,0 +1,50 @@
+<html>
+<style>
+header {
+    background-color:black;
+    color:white;
+    text-align:center;
+    padding:5px;	 
+}
+nav {
+    line-height:30px;
+    background-color:#eeeeee;
+    height:300px;
+    width:100px;
+    float:left;
+    padding:5px;	      
+}
+section {
+    width:350px;
+    float:left;
+    padding:10px;	 	 
+}
+footer {
+    background-color:black;
+    color:white;
+    clear:both;
+    text-align:center;
+    padding:5px;	 	 
+}
+</style>
+<header>
+    <h1>Login Page</h1>
+</header>
+
+<br><br>
+
+<form action="j_security_check" method=post>
+    <p><strong>Email: </strong>
+    <input type="text" name="j_username" size="25">
+    <p><p><strong>Password: </strong>
+    <input type="password" size="15" name="j_password">
+    <p>Don't have an account? <a href="/SoftwareEnterprises/createUser.html">Sign up now</a><p>
+    <input type="submit" value="Submit">
+    <input type="reset" value="Reset">
+</form>
+
+<footer>
+Copyright
+</footer>
+</body>
+</html>
