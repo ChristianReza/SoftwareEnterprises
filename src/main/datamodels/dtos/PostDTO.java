@@ -1,11 +1,11 @@
-package datamodels.dtos;
+package main.datamodels.dtos;
 
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
-import datamodels.interfaces.Comment;
-import datamodels.interfaces.Post;
+import main.datamodels.interfaces.Comment;
+import main.datamodels.interfaces.Post;
 
 public class PostDTO implements Post {
 	

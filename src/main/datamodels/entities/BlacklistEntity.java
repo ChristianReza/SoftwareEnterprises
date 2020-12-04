@@ -1,6 +1,6 @@
-package datamodels.entities;
+package main.datamodels.entities;
 
-import datamodels.interfaces.Blacklist;
+import main.datamodels.interfaces.Blacklist;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

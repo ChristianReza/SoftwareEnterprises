@@ -1,4 +1,4 @@
-package services.read;
+package main.services.create;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -11,39 +11,31 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import datamodels.dtos.UserDTO;
-import util.DBUtil;
+import main.datamodels.dtos.UserDTO;
+import main.util.DBUtil;
 
-/**
- * Servlet implementation class findFriends
- */
-@WebServlet("/findFriends")
-public class FindNewFriends extends HttpServlet {
+@WebServlet("/createUser")
+public class CreateUser extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public FindNewFriends() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
+	public CreateUser() {
+		super();
+	}
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String firstName = request.getParameter("firstName").trim();
 		String lastName = request.getParameter("lastName").trim();
+		String password = Integer.toString(request.getParameter("password").hashCode()); // hash pw
+		String email = request.getParameter("email");
 		String location = request.getParameter("location");
 		String hobbies = request.getParameter("hobbies");
 		List<String> hobbiesList = Arrays.asList(hobbies.split(",")); // split hobbies by a space into a List<String>
 
 		// Create UserDTO from endpoint request
-		UserDTO user = new UserDTO(firstName, lastName, null, location, hobbiesList, null);
+		UserDTO user = new UserDTO(firstName, lastName, email, location, hobbiesList, password);
 
-		DBUtil.findUsers(user);
+		DBUtil.createUser(user);
 
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
@@ -64,12 +56,8 @@ public class FindNewFriends extends HttpServlet {
 		out.println("</body></html>");
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		doGet(request, response);
 	}
-
 }

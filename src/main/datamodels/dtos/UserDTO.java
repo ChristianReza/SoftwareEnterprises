@@ -1,10 +1,10 @@
-package datamodels.dtos;
+package main.datamodels.dtos;
 
 import java.util.List;
 import java.util.Objects;
 
-import datamodels.interfaces.Post;
-import datamodels.interfaces.User;
+import main.datamodels.interfaces.Post;
+import main.datamodels.interfaces.User;
 
 
 public class UserDTO implements User {

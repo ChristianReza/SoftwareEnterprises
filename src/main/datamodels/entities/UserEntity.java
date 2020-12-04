@@ -1,4 +1,4 @@
-package datamodels.entities;
+package main.datamodels.entities;
 
 import java.util.List;
 import java.util.Objects;
@@ -12,9 +12,9 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import datamodels.dtos.UserDTO;
-import datamodels.interfaces.Post;
-import datamodels.interfaces.User;
+import main.datamodels.dtos.UserDTO;
+import main.datamodels.interfaces.Post;
+import main.datamodels.interfaces.User;
 
 @Entity
 @Table(name = "USER")

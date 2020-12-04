@@ -1,9 +1,7 @@
-package services.create;
+package main.services.create;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,33 +9,21 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import datamodels.dtos.PostDTO;
-import util.DBUtil;
+import main.util.DBUtil;
 
-@WebServlet("/createPost")
-public class CreatePost extends HttpServlet {
+@WebServlet("/report")
+public class AddBlockedSite extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	public CreatePost() {
+	public AddBlockedSite() {
 		super();
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String subject = request.getParameter("subject");
-		String body = request.getParameter("body").trim();
+		String siteURL = request.getParameter("site").trim();
 
-
-		SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
-		Date date = new Date(System.currentTimeMillis());
-		
-		// TODO this post needs to get tied to a user, since we don't have an actual LDAP, I don't think we can do that
-		// so I think we should hardcode a TestUser for all posts.
-
-		// Create PostDTO from endpoint request
-		PostDTO post = new PostDTO(subject, body, date);
-
-		DBUtil.createPost(post);
+		DBUtil.blacklistSite(siteURL);
 
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
@@ -52,7 +38,7 @@ public class CreatePost extends HttpServlet {
 				"<body bgcolor=\"#f0f0f0\">\n" + //
 				"<h1 align=\"center\">" + title + "</h1>\n");
 		out.println("<ul>");
-		out.println("<li> Post: " + subject + "\t" + formatter.format(date) + "\n" + body);
+		out.println("<li> Site: " + siteURL);
 		out.println("</ul>");
 //		out.println("<a href=/" + projectName + "/" + searchWebName + ">Search Data</a> <br>");
 		out.println("</body></html>");

@@ -1,8 +1,8 @@
-package datamodels.dtos;
+package main.datamodels.dtos;
 
 import java.util.Objects;
 
-import datamodels.interfaces.Blacklist;
+import main.datamodels.interfaces.Blacklist;
 
 public class BlacklistDTO implements Blacklist {
 	

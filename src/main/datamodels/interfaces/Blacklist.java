@@ -1,4 +1,4 @@
-package datamodels.interfaces;
+package main.datamodels.interfaces;
 
 public interface Blacklist {
 	

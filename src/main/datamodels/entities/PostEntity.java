@@ -1,12 +1,12 @@
-package datamodels.entities;
+package main.datamodels.entities;
 
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
-import datamodels.dtos.PostDTO;
-import datamodels.interfaces.Comment;
-import datamodels.interfaces.Post;
+import main.datamodels.dtos.PostDTO;
+import main.datamodels.interfaces.Comment;
+import main.datamodels.interfaces.Post;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

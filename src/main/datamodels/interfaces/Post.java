@@ -1,4 +1,4 @@
-package datamodels.interfaces;
+package main.datamodels.interfaces;
 
 import java.util.Date;
 import java.util.List;

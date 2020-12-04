@@ -1,35 +1,17 @@
-package datamodels.entities;
+package main.datamodels.dtos;
 
 import java.util.Date;
 import java.util.Objects;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import main.datamodels.interfaces.Comment;
+import main.datamodels.interfaces.User;
 
-import datamodels.interfaces.Comment;
-import datamodels.interfaces.User;
-
-@Entity
-@Table(name = "COMMENTS")
-public class CommentEntity implements Comment {
+public class CommentDTO implements Comment {
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "ID")
-	private Integer id;
+	private User user;
 	
-	@OneToOne
-	private UserEntity user;
-	
-	@Column(name = "COMMENT")
 	private String comment;
 	
-	@Column(name = "DATE")
 	private Date date;
 
 	@Override
@@ -47,7 +29,7 @@ public class CommentEntity implements Comment {
 		return this.date;
 	}
 
-	public void setUser(UserEntity user) {
+	public void setUser(User user) {
 		this.user = user;
 	}
 
@@ -63,7 +45,7 @@ public class CommentEntity implements Comment {
 	public boolean equals(Object o) {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
-		CommentEntity that = (CommentEntity) o;
+		CommentDTO that = (CommentDTO) o;
 		return Objects.equals(user, that.user) &&
 				Objects.equals(comment, that.comment) &&
 				Objects.equals(date, that.date);

@@ -1,12 +1,9 @@
-package util;
+package main.util;
 
-import datamodels.dtos.PostDTO;
-import datamodels.dtos.UserDTO;
-import datamodels.entities.BlacklistEntity;
-import datamodels.entities.PostEntity;
-import datamodels.entities.UserEntity;
-import datamodels.interfaces.Post;
-import datamodels.interfaces.User;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -14,9 +11,13 @@ import org.hibernate.Transaction;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import main.datamodels.dtos.PostDTO;
+import main.datamodels.dtos.UserDTO;
+import main.datamodels.entities.BlacklistEntity;
+import main.datamodels.entities.PostEntity;
+import main.datamodels.entities.UserEntity;
+import main.datamodels.interfaces.Post;
+import main.datamodels.interfaces.User;
 
 /**
  * @since JavaSE-1.8

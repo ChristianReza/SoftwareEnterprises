@@ -1,9 +1,9 @@
-package services.create;
+package main.services.create;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Arrays;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,31 +11,33 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import datamodels.dtos.UserDTO;
-import util.DBUtil;
+import main.datamodels.dtos.PostDTO;
+import main.util.DBUtil;
 
-@WebServlet("/createUser")
-public class CreateUser extends HttpServlet {
+@WebServlet("/createPost")
+public class CreatePost extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	public CreateUser() {
+	public CreatePost() {
 		super();
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String firstName = request.getParameter("firstName").trim();
-		String lastName = request.getParameter("lastName").trim();
-		String password = Integer.toString(request.getParameter("password").hashCode()); // hash pw
-		String email = request.getParameter("email");
-		String location = request.getParameter("location");
-		String hobbies = request.getParameter("hobbies");
-		List<String> hobbiesList = Arrays.asList(hobbies.split(",")); // split hobbies by a space into a List<String>
+		String subject = request.getParameter("subject");
+		String body = request.getParameter("body").trim();
 
-		// Create UserDTO from endpoint request
-		UserDTO user = new UserDTO(firstName, lastName, email, location, hobbiesList, password);
 
-		DBUtil.createUser(user);
+		SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
+		Date date = new Date(System.currentTimeMillis());
+		
+		// TODO this post needs to get tied to a user, since we don't have an actual LDAP, I don't think we can do that
+		// so I think we should hardcode a TestUser for all posts.
+
+		// Create PostDTO from endpoint request
+		PostDTO post = new PostDTO(subject, body, date);
+
+		DBUtil.createPost(post);
 
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
@@ -50,7 +52,7 @@ public class CreateUser extends HttpServlet {
 				"<body bgcolor=\"#f0f0f0\">\n" + //
 				"<h1 align=\"center\">" + title + "</h1>\n");
 		out.println("<ul>");
-		out.println("<li> Name: " + firstName + " " + lastName);
+		out.println("<li> Post: " + subject + "\t" + formatter.format(date) + "\n" + body);
 		out.println("</ul>");
 //		out.println("<a href=/" + projectName + "/" + searchWebName + ">Search Data</a> <br>");
 		out.println("</body></html>");
