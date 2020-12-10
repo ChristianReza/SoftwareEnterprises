@@ -37,23 +37,8 @@ public class CreateUser extends HttpServlet {
 
 		DBUtil.createUser(user);
 
-		response.setContentType("text/html");
-		PrintWriter out = response.getWriter();
-		String title = "Database Result";
-		String docType = "<!doctype html public \"-//w3c//dtd html 4.0 transitional//en\">\n"; //
-		out.println(docType + //
-				"<html>\n" + //
-				"<head>" + //
-				"<style>table, th, td {\r\n" + "  border: 1px solid black;\r\n" + //
-				"border-collapse: collapse;\r\n  } </style>" + // 
-				"<title>" + title + "</title></head>\n" + //
-				"<body bgcolor=\"#f0f0f0\">\n" + //
-				"<h1 align=\"center\">" + title + "</h1>\n");
-		out.println("<ul>");
-		out.println("<li> Name: " + firstName + " " + lastName);
-		out.println("</ul>");
-//		out.println("<a href=/" + projectName + "/" + searchWebName + ">Search Data</a> <br>");
-		out.println("</body></html>");
+		response.sendRedirect("login.html");
+		
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
