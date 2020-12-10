@@ -9,10 +9,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+
 import main.util.DBUtil;
+import main.util.HTMLWriter;
+import main.util.Info;
 
 @WebServlet("/report")
-public class AddBlockedSite extends HttpServlet {
+public class AddBlockedSite extends HttpServlet implements Info {
 	private static final long serialVersionUID = 1L;
 
 	public AddBlockedSite() {
@@ -27,21 +30,10 @@ public class AddBlockedSite extends HttpServlet {
 
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
-		String title = "Database Result";
-		String docType = "<!doctype html public \"-//w3c//dtd html 4.0 transitional//en\">\n"; //
-		out.println(docType + //
-				"<html>\n" + //
-				"<head>" + //
-				"<style>table, th, td {\r\n" + "  border: 1px solid black;\r\n" + //
-				"border-collapse: collapse;\r\n  } </style>" + // 
-				"<title>" + title + "</title></head>\n" + //
-				"<body bgcolor=\"#f0f0f0\">\n" + //
-				"<h1 align=\"center\">" + title + "</h1>\n");
-		out.println("<ul>");
-		out.println("<li> Site: " + siteURL);
-		out.println("</ul>");
-//		out.println("<a href=/" + projectName + "/" + searchWebName + ">Search Data</a> <br>");
-		out.println("</body></html>");
+		String status = "Site reported";
+		String altText = "Report a Site";
+		HTMLWriter htmlWriter = new HTMLWriter(status, reportSiteName, altText);
+		out.println(htmlWriter.createResponsePage());
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
