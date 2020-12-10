@@ -111,6 +111,39 @@ public class DBUtil {
 		}
 		return resultList;
 	}
+	
+	public static boolean loginUser(UserDTO loginRequest) {
+		boolean loggedIn = false;
+		
+		Session session = getSessionFactory().openSession();
+		Transaction tx = null;
+		
+		try {
+			tx = session.beginTransaction();
+			List<?> users = session.createQuery("FROM UserEntity").list();
+			for(Iterator<?> iterator = users.iterator(); iterator.hasNext();)
+			{
+				UserEntity user = (UserEntity) iterator.next();
+				if(user.getEmail().equals(loginRequest.getEmail())
+						&& user.getPassword().equals(loginRequest.getPassword()))
+				{
+					loggedIn = true;
+					break;
+				}
+			}
+		}
+		catch (HibernateException e)
+		{
+			if(tx != null)
+				tx.rollback();
+			e.printStackTrace();
+		}
+		finally {
+			session.close();
+		}
+		
+		return loggedIn;
+	}
 
 	/**
 	 * Find a user's posts.
@@ -227,6 +260,9 @@ public class DBUtil {
 			session.close();
 		}
 	}
+	
+	
+
 
 
 }
