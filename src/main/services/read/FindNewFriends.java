@@ -12,13 +12,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import main.datamodels.dtos.UserDTO;
+import main.datamodels.interfaces.User;
 import main.util.DBUtil;
+import main.util.HTMLWriter;
+import main.util.Info;
 
 /**
  * Servlet implementation class findFriends
  */
 @WebServlet("/findFriends")
-public class FindNewFriends extends HttpServlet {
+public class FindNewFriends extends HttpServlet implements Info {
 	private static final long serialVersionUID = 1L;
        
     /**
@@ -43,25 +46,14 @@ public class FindNewFriends extends HttpServlet {
 		// Create UserDTO from endpoint request
 		UserDTO user = new UserDTO(firstName, lastName, null, location, hobbiesList, null);
 
-		DBUtil.findUsers(user);
+		List<User> possibleFriends = DBUtil.findUsers(user);
 
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
-		String title = "Database Result";
-		String docType = "<!doctype html public \"-//w3c//dtd html 4.0 transitional//en\">\n"; //
-		out.println(docType + //
-				"<html>\n" + //
-				"<head>" + //
-				"<style>table, th, td {\r\n" + "  border: 1px solid black;\r\n" + //
-				"border-collapse: collapse;\r\n  } </style>" + // 
-				"<title>" + title + "</title></head>\n" + //
-				"<body bgcolor=\"#f0f0f0\">\n" + //
-				"<h1 align=\"center\">" + title + "</h1>\n");
-		out.println("<ul>");
-		out.println("<li> Name: " + firstName + " " + lastName);
-		out.println("</ul>");
-//		out.println("<a href=/" + projectName + "/" + searchWebName + ">Search Data</a> <br>");
-		out.println("</body></html>");
+		String status = "Possible Friends";
+		String altText = "Search for more friends";
+		HTMLWriter htmlWriter = new HTMLWriter(status, findFriendsName, altText, possibleFriends);
+		out.println(htmlWriter.createResponsePageWithBodyUSER());
 	}
 
 	/**

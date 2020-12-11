@@ -3,6 +3,7 @@ package main.services.create;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -30,14 +31,15 @@ public class CreateUser extends HttpServlet {
 		String location = request.getParameter("location");
 		String hobbies = request.getParameter("hobbies");
 		List<String> hobbiesList = Arrays.asList(hobbies.split(",")); // split hobbies by a space into a List<String>
+		List<String> hobbiesTrimmed = hobbiesList.stream().map(String::trim).collect(Collectors.toList());
 
 		// Create UserDTO from endpoint request
-		UserDTO user = new UserDTO(firstName, lastName, email, location, hobbiesList, password);
+		UserDTO user = new UserDTO(firstName, lastName, email, location, hobbiesTrimmed, password);
 
 		DBUtil.createUser(user);
 
 		response.sendRedirect("login.html");
-		
+
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)

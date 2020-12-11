@@ -3,6 +3,7 @@ package main.util;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -39,7 +40,8 @@ public class DBUtil {
 	/**
 	 * find all friends of a user
 	 *
-	 * @param keyword - user ID to find friends of (may change this, but same concept)
+	 * @param keyword - user ID to find friends of (may change this, but same
+	 *                concept)
 	 * @return - list of all users
 	 */
 	public static List<User> listUsersFriends(String keyword) {
@@ -50,7 +52,7 @@ public class DBUtil {
 
 		try {
 			tx = session.beginTransaction();
-			List<?> friends =  session.createQuery("FROM UserEntity").list();
+			List<?> friends = session.createQuery("FROM UserEntity").list();
 			for (Object friend : friends) {
 				UserEntity user = (UserEntity) friend;
 				if (user.getId().toString().equals(keyword)) {
@@ -59,7 +61,7 @@ public class DBUtil {
 			}
 			tx.commit();
 		} catch (HibernateException e) {
-			if(tx != null)
+			if (tx != null)
 				tx.rollback();
 			e.printStackTrace();
 		} finally {
@@ -75,8 +77,8 @@ public class DBUtil {
 	 * @param user - UserDTO to search for similarities against users in DB
 	 * @return users with that that match parts of the query
 	 */
-	public static List<UserEntity> findUsers(UserDTO queryUser) {
-		List<UserEntity> resultList = new ArrayList<>();
+	public static List<User> findUsers(UserDTO queryUser) {
+		List<User> resultList = new ArrayList<>();
 
 		Session session = getSessionFactory().openSession();
 		Transaction tx = null;
@@ -86,22 +88,27 @@ public class DBUtil {
 			List<?> users = session.createQuery("FROM UserEntity").list();
 			for (Iterator<?> iterator = users.iterator(); iterator.hasNext();) {
 				UserEntity user = (UserEntity) iterator.next();
-				if(user.getFirstName().equals(queryUser.getFirstName())
-						&& user.getLastName().equals(queryUser.getLastName())) {
-					resultList.add(user);
-				}
-				if((queryUser.getLocation() != null || queryUser.getLocation().isEmpty()) 
-						&& user.getLocation().equals(queryUser.getLocation())) {
-					resultList.add(user);
-				}
-				List<String> hobbies = queryUser.getHobbies();
-				for (String hobby : hobbies) {
-					if (user.getHobbies().contains(hobby)) {
+				List<String> hobbies = 
+						queryUser.getHobbies().stream().map(String::trim).collect(Collectors.toList());
+
+				if ((!user.getFirstName().isEmpty() && !user.getLastName().isEmpty())
+						&& user.getFirstName().equalsIgnoreCase(queryUser.getFirstName())
+						|| user.getLastName().equalsIgnoreCase(queryUser.getLastName())) {
+					if (!resultList.contains(user))
 						resultList.add(user);
+				}
+				for (String hobby : hobbies) {
+					if (user.getHobbies().contains(hobby.trim())) {
+						if (!resultList.contains(user))
+							resultList.add(user);
 					}
 				}
+				if (!user.getLocation().isEmpty()
+						&& user.getLocation().equalsIgnoreCase(queryUser.getLocation())) {
+					if (!resultList.contains(user))
+						resultList.add(user);
+				}
 			}
-			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)
 				tx.rollback();
@@ -111,43 +118,38 @@ public class DBUtil {
 		}
 		return resultList;
 	}
-	
+
 	public static boolean loginUser(UserDTO loginRequest) {
 		boolean loggedIn = false;
-		
+
 		Session session = getSessionFactory().openSession();
 		Transaction tx = null;
-		
+
 		try {
 			tx = session.beginTransaction();
 			List<?> users = session.createQuery("FROM UserEntity").list();
-			for(Iterator<?> iterator = users.iterator(); iterator.hasNext();)
-			{
+			for (Iterator<?> iterator = users.iterator(); iterator.hasNext();) {
 				UserEntity user = (UserEntity) iterator.next();
-				if(user.getEmail().equals(loginRequest.getEmail())
-						&& user.getPassword().equals(loginRequest.getPassword()))
-				{
+				if (user.getEmail().equals(loginRequest.getEmail())
+						&& user.getPassword().equals(loginRequest.getPassword())) {
 					loggedIn = true;
 					break;
 				}
 			}
-		}
-		catch (HibernateException e)
-		{
-			if(tx != null)
+		} catch (HibernateException e) {
+			if (tx != null)
 				tx.rollback();
 			e.printStackTrace();
-		}
-		finally {
+		} finally {
 			session.close();
 		}
-		
+
 		return loggedIn;
 	}
 
 	/**
-	 * Find a user's posts.
-	 * Once we have posts, we don't need to find comments in a separate method.
+	 * Find a user's posts. Once we have posts, we don't need to find comments in a
+	 * separate method.
 	 *
 	 * @param keyword user ID to find posts by
 	 * @return - list of user's posts
@@ -160,7 +162,7 @@ public class DBUtil {
 
 		try {
 			tx = session.beginTransaction();
-			List<?> friends =  session.createQuery("FROM UserEntity").list();
+			List<?> friends = session.createQuery("FROM UserEntity").list();
 			for (Object friend : friends) {
 				UserEntity user = (UserEntity) friend;
 				if (user.getId().toString().equals(keyword)) {
@@ -190,7 +192,7 @@ public class DBUtil {
 
 		try {
 			tx = session.beginTransaction();
-			List<?> sites =  session.createQuery("FROM BlacklistEntity").list();
+			List<?> sites = session.createQuery("FROM BlacklistEntity").list();
 			for (Object site : sites) {
 				BlacklistEntity web = (BlacklistEntity) site;
 				if (web.getReportedSite().contains(keyword)) {
@@ -198,7 +200,7 @@ public class DBUtil {
 					web.bumpReports();
 				}
 			}
-			if(!alreadyReported) { // if the site is not in the blacklist, add it with 1 report
+			if (!alreadyReported) { // if the site is not in the blacklist, add it with 1 report
 				session.save(new BlacklistEntity(keyword));
 			}
 			tx.commit();
@@ -211,11 +213,9 @@ public class DBUtil {
 		}
 	}
 
-
 	/*
 	 * CREATE METHODS
 	 */
-
 
 	/**
 	 * save user to DB
@@ -227,8 +227,7 @@ public class DBUtil {
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
-			session.save(
-					new UserEntity(user));
+			session.save(new UserEntity(user));
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)
@@ -249,8 +248,7 @@ public class DBUtil {
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
-			session.save(
-					new PostEntity(post));
+			session.save(new PostEntity(post));
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)
@@ -260,9 +258,5 @@ public class DBUtil {
 			session.close();
 		}
 	}
-	
-	
-
-
 
 }

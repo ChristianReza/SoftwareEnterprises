@@ -19,7 +19,7 @@ import main.datamodels.interfaces.User;
 @Entity
 @Table(name = "USER")
 public class UserEntity implements User {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID")
@@ -30,7 +30,7 @@ public class UserEntity implements User {
 
 	@Column(name = "LAST_NAME")
 	private String lastName;
-	
+
 	@Column(name = "PW")
 	private String password;
 
@@ -105,7 +105,7 @@ public class UserEntity implements User {
 	public List<Post> getPosts() {
 		return this.posts;
 	}
-	
+
 	@Override
 	public String getPassword() {
 		return this.password;
@@ -142,25 +142,23 @@ public class UserEntity implements User {
 	public void setPosts(List<Post> posts) {
 		this.posts = posts;
 	}
-	
+
 	public void setPassword(String password) {
 		this.password = password;
 	}
 
 	@Override
 	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
 		UserEntity that = (UserEntity) o;
-		return Objects.equals(id, that.id) &&
-				Objects.equals(firstName, that.firstName) &&
-				Objects.equals(lastName, that.lastName) &&
-				Objects.equals(email, that.email) &&
-				Objects.equals(location, that.location) &&
-				Objects.equals(hobbies, that.hobbies) &&
-				Objects.equals(friends, that.friends) &&
-				Objects.equals(posts, that.posts) &&
-				Objects.equals(password, that.password);
+		return Objects.equals(id, that.id) && Objects.equals(firstName, that.firstName)
+				&& Objects.equals(lastName, that.lastName) && Objects.equals(email, that.email)
+				&& Objects.equals(location, that.location) && Objects.equals(hobbies, that.hobbies)
+				&& Objects.equals(friends, that.friends) && Objects.equals(posts, that.posts)
+				&& Objects.equals(password, that.password);
 	}
 
 	@Override

@@ -1,5 +1,9 @@
 package main.util;
 
+import java.util.List;
+
+import main.datamodels.interfaces.User;
+
 public class HTMLWriter implements Info {
 
 	private String docType = "<!doctype html public \"-//w3c//dtd html 4.0 transitional//en\">\n";
@@ -15,6 +19,7 @@ public class HTMLWriter implements Info {
 	private String title;
 	private String webName;
 	private String webNameAlt;
+	private List<User> userList;
 
 	/**
 	 * 
@@ -29,6 +34,13 @@ public class HTMLWriter implements Info {
 		this.webNameAlt = webNameAlt;
 	}
 
+	public HTMLWriter(String title, String webName, String webNameAlt, List<User> bodyList) {
+		this.title = title;
+		this.webName = webName;
+		this.webNameAlt = webNameAlt;
+		this.userList = bodyList;
+	}
+
 	public String createResponsePage() {
 		String body = (docType + //
 				"<html>\n" + //
@@ -36,10 +48,33 @@ public class HTMLWriter implements Info {
 				style + //
 				"<title>" + this.title + "</title></head>\n" + //
 				"<body bgcolor=\"#f0f0f0\">\n" + //
-				"<h1 align=\"center\">" + this.title + "</h1>\n" + "<ul>" +
-//				"<li> Site: " + siteURL +
-				"</ul>" + "<a href=/" + projectName + "/" + this.webName + ">" + this.webNameAlt + "</a> <br>"
-				+ "</body></html>");
+				"<h1 align=\"center\">" + this.title + "</h1>\n" + "<ul>" + "</ul>" + "<a href=/" + projectName + "/"
+				+ this.webName + ">" + this.webNameAlt + "</a> <br>" + "<footer>\r\n" + "Copyright\r\n"
+				+ "</footer></body></html>");
+		return body;
+	}
+
+	public String createResponsePageWithBodyUSER() {
+		StringBuilder tableBuilder = new StringBuilder();
+		tableBuilder.append(
+				"<table> <tr> <th>First Name</th> <th>Last Name</th> <th>Location</th> " + "<th>Hobbies</th></tr>");
+		for (User user : userList) {
+
+			tableBuilder.append(String.format("<tr> <td>%s</td> <td>%s</td> <td>%s</td> <td>%s</td> </tr>",
+					user.getFirstName(), user.getLastName(), user.getLocation(), user.getHobbies()));
+
+		}
+		tableBuilder.append("</table>");
+
+		String body = (docType + //
+				"<html>\n" + //
+				"<head>" + //
+				style + //
+				"<title>" + this.title + "</title></head>\n" + //
+				"<body bgcolor=\"#f0f0f0\">\n" + //
+				"<h1 align=\"center\">" + this.title + "</h1>\n" + "<ul>" + tableBuilder + "</ul>" + "<a href=/"
+				+ projectName + "/" + this.webName + ">" + this.webNameAlt + "</a> <br>" + "<footer>\r\n"
+				+ "Copyright\r\n" + "</footer></body></html>");
 		return body;
 	}
 
