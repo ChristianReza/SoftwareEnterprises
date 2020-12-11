@@ -275,6 +275,7 @@ public class DBUtil {
 					}
 				}
 			}
+			session.save(new PostEntity(post));
 			
 			List<?> posts = session.createQuery("FROM PostEntity").list();
 			PostEntity savedPost = null;
@@ -287,10 +288,8 @@ public class DBUtil {
 				}
 			}
 
-			session.save(new PostEntity(post));
-			List<Post> usersPosts = postingUser.getPosts();
+			List<Post> usersPosts = (postingUser.getPosts() != null ? postingUser.getPosts() : new ArrayList<Post>());
 			usersPosts.add(savedPost);
-			postingUser.setPosts(usersPosts);
 			session.merge(postingUser);
 			tx.commit();
 		} catch (HibernateException e) {
