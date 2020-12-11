@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import main.datamodels.dtos.CommentDTO;
 import main.datamodels.interfaces.Comment;
 import main.datamodels.interfaces.User;
 
@@ -24,13 +25,32 @@ public class CommentEntity implements Comment {
 	private Integer id;
 	
 	@OneToOne
-	private UserEntity user;
+	private User user;
 	
 	@Column(name = "COMMENT")
 	private String comment;
 	
 	@Column(name = "DATE")
 	private Date date;
+	
+	public CommentEntity(CommentDTO comment) {
+		super();
+		this.user = comment.getUser();
+		this.comment = comment.getComment();
+		this.date = comment.getDate();
+	}
+
+	public CommentEntity(Integer id, UserEntity user, String comment, Date date) {
+		super();
+		this.id = id;
+		this.user = user;
+		this.comment = comment;
+		this.date = date;
+	}
+
+	public CommentEntity() {
+		// Default Constructor
+	}
 
 	@Override
 	public User getUser() {
@@ -58,7 +78,7 @@ public class CommentEntity implements Comment {
 	public void setDate(Date date) {
 		this.date = date;
 	}
-
+	
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;

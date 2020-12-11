@@ -13,6 +13,17 @@ public class CommentDTO implements Comment {
 	private String comment;
 	
 	private Date date;
+	
+	public CommentDTO(UserDTO user, String comment, Date date) {
+		super();
+		this.user = user;
+		this.comment = comment;
+		this.date = date;
+	}
+
+	public CommentDTO() {
+		// Default Constructor
+	}
 
 	@Override
 	public User getUser() {

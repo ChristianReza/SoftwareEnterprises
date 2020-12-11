@@ -12,9 +12,11 @@ import org.hibernate.Transaction;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 
+import main.datamodels.dtos.CommentDTO;
 import main.datamodels.dtos.PostDTO;
 import main.datamodels.dtos.UserDTO;
 import main.datamodels.entities.BlacklistEntity;
+import main.datamodels.entities.CommentEntity;
 import main.datamodels.entities.PostEntity;
 import main.datamodels.entities.UserEntity;
 import main.datamodels.interfaces.Post;
@@ -249,6 +251,42 @@ public class DBUtil {
 		try {
 			tx = session.beginTransaction();
 			session.save(new PostEntity(post));
+			tx.commit();
+		} catch (HibernateException e) {
+			if (tx != null)
+				tx.rollback();
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+	}
+	
+	/**
+	 * save a comment to the DB
+	 *
+	 * @param comment - comment to save
+	 */
+	public static void createComment(CommentDTO comment) {
+		Session session = getSessionFactory().openSession();
+		Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
+			
+			// Create a user that will post all comments, since we don't have 
+			// an LDAP or anything like that for user token/auth to tell 
+			// who is posting the comments
+			List<?> users = session.createQuery("FROM UserEntity").list();
+			boolean commentUserExist = false;
+			for (Object friend : users) {
+				UserEntity user = (UserEntity) friend;
+				if (user.equals(comment.getUser()) && !commentUserExist) {
+					createUser((UserDTO) comment.getUser());
+					commentUserExist = true;
+				}
+			}
+			
+			
+			session.save(new CommentEntity(comment));
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)
