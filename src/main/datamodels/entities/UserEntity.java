@@ -45,10 +45,12 @@ public class UserEntity implements User {
 	private List<String> hobbies;
 
 	@Column(name = "FRIENDS")
+	@ElementCollection
 	@OneToMany(targetEntity = UserEntity.class)
 	private List<User> friends;
 
 	@Column(name = "POSTS")
+	@ElementCollection
 	@OneToMany(targetEntity = PostEntity.class)
 	private List<Post> posts;
 
@@ -154,11 +156,20 @@ public class UserEntity implements User {
 		if (o == null || getClass() != o.getClass())
 			return false;
 		UserEntity that = (UserEntity) o;
-		return Objects.equals(id, that.id) && Objects.equals(firstName, that.firstName)
+		return Objects.equals(firstName, that.firstName)
 				&& Objects.equals(lastName, that.lastName) && Objects.equals(email, that.email)
 				&& Objects.equals(location, that.location) && Objects.equals(hobbies, that.hobbies)
-				&& Objects.equals(friends, that.friends) && Objects.equals(posts, that.posts)
-				&& Objects.equals(password, that.password);
+				&& Objects.equals(friends, that.friends) && Objects.equals(posts, that.posts);
+	}
+	
+	public boolean simpleEquals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+		UserEntity that = (UserEntity) o;
+		return Objects.equals(firstName, that.firstName)
+				&& Objects.equals(lastName, that.lastName) && Objects.equals(email, that.email);
 	}
 
 	@Override

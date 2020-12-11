@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import main.datamodels.dtos.PostDTO;
+import main.datamodels.dtos.UserDTO;
 import main.util.DBUtil;
 
 @WebServlet("/createPost")
@@ -31,13 +32,12 @@ public class CreatePost extends HttpServlet {
 		SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
 		Date date = new Date(System.currentTimeMillis());
 		
-		// TODO this post needs to get tied to a user, since we don't have an actual LDAP, I don't think we can do that
-		// so I think we should hardcode a TestUser for all posts.
+		UserDTO postUser = new UserDTO("Demo", "User", "DemoUser@test.com", null, null, "demo");
 
 		// Create PostDTO from endpoint request
 		PostDTO post = new PostDTO(subject, body, date);
 
-		DBUtil.createPost(post);
+		DBUtil.createPost(post, postUser);
 
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();

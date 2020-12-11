@@ -73,7 +73,7 @@ public class PostDTO implements Post {
 				Objects.equals(comments, postDTO.comments) &&
 				Objects.equals(date, postDTO.date);
 	}
-
+	
 	@Override
 	public int hashCode() {
 		return Objects.hash(subject, body, comments, date);

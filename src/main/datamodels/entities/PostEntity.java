@@ -4,10 +4,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
-import main.datamodels.dtos.PostDTO;
-import main.datamodels.interfaces.Comment;
-import main.datamodels.interfaces.Post;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,6 +11,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import main.datamodels.dtos.PostDTO;
+import main.datamodels.interfaces.Comment;
+import main.datamodels.interfaces.Post;
 
 @Entity
 @Table(name = "POSTS")
@@ -103,6 +103,14 @@ public class PostEntity implements Post {
 				Objects.equals(body, that.body) &&
 				Objects.equals(comments, that.comments) &&
 				Objects.equals(date, that.date);
+	}
+	
+	public boolean simpleEquals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		PostEntity that = (PostEntity) o;
+		return Objects.equals(subject, that.subject) &&
+				Objects.equals(body, that.body);
 	}
 
 	@Override

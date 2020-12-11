@@ -25,7 +25,7 @@ public class CommentEntity implements Comment {
 	private Integer id;
 	
 	@OneToOne
-	private User user;
+	private UserEntity user;
 	
 	@Column(name = "COMMENT")
 	private String comment;
@@ -35,7 +35,7 @@ public class CommentEntity implements Comment {
 	
 	public CommentEntity(CommentDTO comment) {
 		super();
-		this.user = comment.getUser();
+		this.user = (UserEntity) comment.getUser();
 		this.comment = comment.getComment();
 		this.date = comment.getDate();
 	}

@@ -245,12 +245,53 @@ public class DBUtil {
 	 *
 	 * @param post - post to save
 	 */
-	public static void createPost(PostDTO post) {
+	public static void createPost(PostDTO post, UserDTO postUser) {
 		Session session = getSessionFactory().openSession();
 		Transaction tx = null;
+		UserEntity postingUser = null;
 		try {
 			tx = session.beginTransaction();
+
+			// Create a user that will post all comments, since we don't have
+			// an LDAP or anything like that for user token/auth to tell
+			// who is posting the comments
+			List<?> users = session.createQuery("FROM UserEntity").list();
+			boolean demoUser = false;
+			for (Object friend : users) {
+				UserEntity user = (UserEntity) friend;
+				UserEntity convertedDTO = convertDTO(postUser);
+				if (user.simpleEquals(convertedDTO)) {
+					postingUser = user;
+					demoUser = true;
+					break;
+				}
+			}
+			if (!demoUser) {
+				createUser(postUser);
+				for (Object friend : users) {
+					UserEntity user = (UserEntity) friend;
+					if (user.equals(convertDTO(postUser))) {
+						postingUser = user;
+					}
+				}
+			}
+			
+			List<?> posts = session.createQuery("FROM PostEntity").list();
+			PostEntity savedPost = null;
+			for (Object temp : posts) {
+				PostEntity pst = (PostEntity) temp;
+				PostEntity convertedDTO = new PostEntity(post);
+				if (pst.simpleEquals(convertedDTO)) {
+					savedPost = pst;
+					break;
+				}
+			}
+
 			session.save(new PostEntity(post));
+			List<Post> usersPosts = postingUser.getPosts();
+			usersPosts.add(savedPost);
+			postingUser.setPosts(usersPosts);
+			session.merge(postingUser);
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)
@@ -296,5 +337,15 @@ public class DBUtil {
 			session.close();
 		}
 	}
+	
+	
+	/*
+	 * CONVERT METHODS
+	 */
+	
+	public static UserEntity convertDTO(UserDTO userDTO) { 
+		return new UserEntity(userDTO);
+	}
+	
 
 }
