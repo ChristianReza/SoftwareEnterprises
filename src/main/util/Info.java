@@ -8,5 +8,6 @@ public interface Info {
 	public String reportSiteName = "reportSite.html";
 	public String loginSiteName = "login.html";
 	public String loginFailSiteName = "loginFail.html";
+	public String index = "index.html";
 
 }

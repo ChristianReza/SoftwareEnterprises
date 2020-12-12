@@ -156,18 +156,19 @@ public class DBUtil {
 	 * @param keyword user ID to find posts by
 	 * @return - list of user's posts
 	 */
-	public static List<Post> findPosts(String keyword) {
+	public static List<Post> findPosts(UserDTO userDTO) {
 		List<Post> resultList = new ArrayList<>();
 
 		Session session = getSessionFactory().openSession();
 		Transaction tx = null;
+		UserEntity convertedDTO = convertDTO(userDTO);
 
 		try {
 			tx = session.beginTransaction();
-			List<?> friends = session.createQuery("FROM UserEntity").list();
-			for (Object friend : friends) {
-				UserEntity user = (UserEntity) friend;
-				if (user.getId().toString().equals(keyword)) {
+			List<?> users = session.createQuery("FROM UserEntity").list();
+			for (Object usr : users) {
+				UserEntity user = (UserEntity) usr;
+				if (user.simpleEquals(convertedDTO)) {
 					resultList.addAll(user.getPosts());
 				}
 			}

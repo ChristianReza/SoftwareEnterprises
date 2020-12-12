@@ -1,6 +1,8 @@
-package main.services.login;
+package main.services.read;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,19 +11,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import main.datamodels.dtos.UserDTO;
+import main.datamodels.interfaces.Post;
 import main.util.DBUtil;
+import main.util.HTMLWriter;
+import main.util.Info;
 
 /**
- * Servlet implementation class Login
+ * Servlet implementation class ShowFeed
  */
-@WebServlet("/login")
-public class Login extends HttpServlet {
+@WebServlet("/Feed")
+public class ShowFeed extends HttpServlet implements Info {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Login() {
+    public ShowFeed() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -29,27 +34,16 @@ public class Login extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
-			throws ServletException, IOException {
-		String email = request.getParameter("j_username");
-		String password = Integer.toString(request.getParameter("j_password").hashCode());
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		UserDTO userFeed = new UserDTO("Demo", "User", "DemoUser@test.com", null, null, Integer.toString(("demo").hashCode()));
 		
-		
-		// Create UserDTO from endpoint request
-		
-		UserDTO user = new UserDTO(null, null, email, null,null, password); 
-		boolean loginSuccess = DBUtil.loginUser(user);
-		if(loginSuccess)
-		{
-			response.sendRedirect("index.html");
-		}
-		else
-		{
-			response.sendRedirect("loginFail.html");
-		}
-		
-		
-		
+		List<Post> usersPosts = DBUtil.findPosts(userFeed);
+
+		response.setContentType("text/html");
+		PrintWriter out = response.getWriter();
+		String status = "Your Feed";
+		HTMLWriter htmlWriter = new HTMLWriter(status, null, "", null, usersPosts);
+		out.println(htmlWriter.createResponsePageWithBodyPOST());
 	}
 
 	/**

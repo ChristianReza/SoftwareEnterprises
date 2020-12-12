@@ -51,8 +51,8 @@ public class FindNewFriends extends HttpServlet implements Info {
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
 		String status = "Possible Friends";
-		String altText = "Search for more friends";
-		HTMLWriter htmlWriter = new HTMLWriter(status, findFriendsName, altText, possibleFriends);
+		String altText = "Find more";
+		HTMLWriter htmlWriter = new HTMLWriter(status, findFriendsName, altText, possibleFriends, null);
 		out.println(htmlWriter.createResponsePageWithBodyUSER());
 	}
 

@@ -1,8 +1,6 @@
 package main.services.create;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.servlet.ServletException;
@@ -29,33 +27,16 @@ public class CreatePost extends HttpServlet {
 		String body = request.getParameter("body").trim();
 
 
-		SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
 		Date date = new Date(System.currentTimeMillis());
 		
-		UserDTO postUser = new UserDTO("Demo", "User", "DemoUser@test.com", null, null, "demo");
+		UserDTO postUser = new UserDTO("Demo", "User", "DemoUser@test.com", "", null, Integer.toString(("demo").hashCode()));
 
 		// Create PostDTO from endpoint request
 		PostDTO post = new PostDTO(subject, body, date);
 
 		DBUtil.createPost(post, postUser);
 
-		response.setContentType("text/html");
-		PrintWriter out = response.getWriter();
-		String title = "Database Result";
-		String docType = "<!doctype html public \"-//w3c//dtd html 4.0 transitional//en\">\n"; //
-		out.println(docType + //
-				"<html>\n" + //
-				"<head>" + //
-				"<style>table, th, td {\r\n" + "  border: 1px solid black;\r\n" + //
-				"border-collapse: collapse;\r\n  } </style>" + // 
-				"<title>" + title + "</title></head>\n" + //
-				"<body bgcolor=\"#f0f0f0\">\n" + //
-				"<h1 align=\"center\">" + title + "</h1>\n");
-		out.println("<ul>");
-		out.println("<li> Post: " + subject + "\t" + formatter.format(date) + "\n" + body);
-		out.println("</ul>");
-//		out.println("<a href=/" + projectName + "/" + searchWebName + ">Search Data</a> <br>");
-		out.println("</body></html>");
+		response.sendRedirect("index.html");
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)

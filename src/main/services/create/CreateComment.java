@@ -37,10 +37,10 @@ public class CreateComment extends HttpServlet {
 		String subject = request.getParameter("subject");
 		String body = request.getParameter("body").trim();
 		
-		UserDTO commentUser = new UserDTO("Commenting", "User", "CommentingUser@test.com", null, null, "testuser");
+		UserDTO commentUser = new UserDTO("Commenting", "User", "CommentingUser@test.com", null, null, Integer.toString(("testuser").hashCode()));
 
 
-		SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
+		SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm z");
 		Date date = new Date(System.currentTimeMillis());
 		
 		// TODO this post needs to get tied to a user, since we don't have an actual LDAP, I don't think we can do that
