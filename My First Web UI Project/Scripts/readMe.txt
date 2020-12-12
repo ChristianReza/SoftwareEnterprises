@@ -1,0 +1,1 @@
+when running pick fire fox as the browser in the run menu 
