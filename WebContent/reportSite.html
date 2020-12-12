@@ -8,12 +8,12 @@ header {
     padding:5px;	 
 }
 nav {
-    line-height:30px;
-    background-color:#eeeeee;
-    height:300px;
-    width:100px;
-    float:left;
-    padding:5px;	      
+	line-height: 30px;
+	background-color: #eeeeee;
+	height: 100%;
+	width: 115px;
+	float: left;
+	padding: 5px;
 }
 section {
     width:350px;
@@ -35,11 +35,17 @@ footer {
 <h1> Report a Site! </h1>
 </header>
 
-<nav>
-</nav>
+	<nav>
+		<a href="/SoftwareEnterprises/index.html">Home</a>
+		<form action="Feed" method="POST">
+			<input type="submit" value="View your Feed" />
+		</form>
+		<a href="/SoftwareEnterprises/findFriends.html">Find Friends</a>
+		<a href="/SoftwareEnterprises/createPost.html">New Post</a>
+	</nav>
 
-<section>
-	<h1>User Input</h1>
+	<section>
+				<h1>User Input</h1>
 	
 	<form action="report" method="POST">
 	
@@ -50,7 +56,8 @@ footer {
 
 </section>
 
-<footer>
+
+		<footer>
 Copyright
 </footer>
 </body>
