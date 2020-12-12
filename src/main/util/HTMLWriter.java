@@ -9,12 +9,12 @@ public class HTMLWriter implements Info {
 
 	private String docType = "<!doctype html public \"-//w3c//dtd html 4.0 transitional//en\">\n";
 
-	private String style = "<style>\r\n" + "header {\r\n" + "    background-color:black;\r\n" + "    color:white;\r\n"
+	private String style = "<style>\r\n" + "header {\r\n" + "    background: linear-gradient(to bottom left, #33ccff 8%, #66ff99 74%);\r\n" + "    color:white;\r\n"
 			+ "    text-align:center;\r\n" + "    padding:5px;	 \r\n" + "}\r\n" + "nav {\r\n"
 			+ "    line-height:30px;\r\n" + "    background-color:#eeeeee;\r\n" + "    height:100%;\r\n"
 			+ "    width:115px;\r\n" + "    float:left;\r\n" + "    padding:5px;	      \r\n" + "}\r\n"
 			+ "section {\r\n" + "    width:350px;\r\n" + "    float:left;\r\n" + "    padding:10px;	 	 \r\n" + "}\r\n"
-			+ "footer {\r\n" + "    background-color:black;\r\n" + "    color:white;\r\n" + "    clear:both;\r\n"
+			+ "footer {\r\n" + "     background: linear-gradient(to bottom left, #33ccff 8%, #66ff99 74%);\r\n" + "    color:white;\r\n" + "    clear:both;\r\n"
 			+ "    text-align:center;\r\n" + "    padding:5px;	 	 \r\n" + "}\r\n" + "</style>";
 
 	private String title;
@@ -83,7 +83,7 @@ public class HTMLWriter implements Info {
 				+ projectName + "/" + this.webName + ">" + this.webNameAlt + "</a> </nav> <br>"
 				+ "<section> <ul>" + tableBuilder + "</ul> </section>" + 
 				"<footer>\r\n"
-				+ "Copyright\r\n" + "</footer></body></html>");
+				+ "\r\n" + "</footer></body></html>");
 		return body;
 	}
 	
