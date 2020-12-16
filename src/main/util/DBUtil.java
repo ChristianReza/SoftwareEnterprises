@@ -276,6 +276,9 @@ public class DBUtil {
 					}
 				}
 			}
+			
+			post = processPost(post);
+			
 			session.save(new PostEntity(post));
 			
 			List<?> posts = session.createQuery("FROM PostEntity").list();
@@ -302,6 +305,44 @@ public class DBUtil {
 		}
 	}
 	
+	/**
+	 * Process post and check for links to any blocked sites.
+	 * 
+	 * @param post - PostDTO to process
+	 * @return postDTO after processing
+	 */
+	private static PostDTO processPost(PostDTO post) {
+		Session session = getSessionFactory().openSession();
+		Transaction tx = null;
+
+		try {
+			tx = session.beginTransaction();
+			List<?> sites = session.createQuery("FROM BlacklistEntity").list();
+			for (Object temp : sites) {
+				BlacklistEntity site = (BlacklistEntity) temp;
+				if (post.getBody().contains(site.getReportedSite())) {
+					if (site.getNumReports() >= 5) {
+						String splitPost[] = post.getBody().split(" ");
+						for (int i = 0; i < splitPost.length; i++) {
+							if (splitPost[i].contains(site.getReportedSite())) {
+								splitPost[i] = "{LINK REMOVED}";
+							}
+						}
+						post.setBody(convertObjectArrayToString(splitPost, " "));
+					}
+				}
+			}
+		} catch (HibernateException e) {
+			if (tx != null)
+				tx.rollback();
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+
+		return post;
+	}
+
 	/**
 	 * save a comment to the DB
 	 *
@@ -347,5 +388,17 @@ public class DBUtil {
 		return new UserEntity(userDTO);
 	}
 	
+	
+	/*
+	 * HELPER METHOD
+	 */
+
+	private static String convertObjectArrayToString(Object[] arr, String delimiter) {
+		StringBuilder sb = new StringBuilder();
+		for (Object obj : arr)
+			sb.append(obj.toString()).append(delimiter);
+		return sb.substring(0, sb.length() - 1);
+
+	}
 
 }
